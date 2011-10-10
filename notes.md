@@ -33,5 +33,24 @@ local area networks typically fit this description and can be assumed for *most*
 people.
 
 **Delta Compression:** The system should use delta compression to reduce the 
-amount of data sent between systems. Additional improvement should also be 
+amount of data sent between systems. Additional improvements should also be 
 considered.
+
+## Prior Work
+
+Unsurprisingly, Version Control Systems (VCS), particularly those of a distributed nature, 
+introduced many benefits to delta compression and associated algorithms.
+
+Git is a prominent DVCS (Distributed VCS) that uses a simple blob structure to represent 
+file versions. These blobs are themselves stored in files. This simple approach gives Git
+speed, efficiency and is particularly suited to distributed development. However, this 
+approach assumes the files under version control are small and will fit into memory.
+
+Some modifications have been attempted to alleviate this, so far none are satisfactory. 
+The `git-annex` project removes files from the Git repository and replaces them with
+symbolic links. This solves nothing, it simply prevents Git from choking on large files.
+
+The `bup` project aims to provide efficient backups of *very* large files/filesystems, 
+while still using the Git packfile format. This allows for Git compatibility; they have 
+also implemented a modified `rsync` algorithm for efficiently handling large files. This 
+approach introduces other problems, mainly with Git's handling of many large packfiles.
