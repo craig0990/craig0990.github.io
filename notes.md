@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Tge system must provide access primarily to the current version of a file, while 
+The system must provide access primarily to the current version of a file, while 
 still providing access to old/deleted versions. Also needs to provide efficient 
 synchronisation with multiple sources.
 
@@ -19,3 +19,19 @@ example.
 
 **Storage:** The system should de-duplicate data wherever possible, to reduce the 
 storage consumed by version history.
+
+**Offline:** The system should still be able to function offline, merging it's 
+changes to other locations when re-connected to the network.
+
+### Synchronisation
+
+The system must provide simple bi-directional synchronisation between two hosts in 
+an efficient manner.
+
+**Low-latency:** A low-latency communications channel is assumed. Broadband or 
+local area networks typically fit this description and can be assumed for *most* 
+people.
+
+**Delta Compression:** The system should use delta compression to reduce the 
+amount of data sent between systems. Additional improvement should also be 
+considered.
