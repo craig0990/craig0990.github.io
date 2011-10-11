@@ -23,6 +23,9 @@ storage consumed by version history.
 **Offline:** The system should still be able to function offline, merging it's 
 changes to other locations when re-connected to the network.
 
+**Current Version:** The normal filesystem should be left untouched, leaving it in 
+the state of the most recent version for each file.
+
 ### Synchronisation
 
 The system must provide simple bi-directional synchronisation between two hosts in 
@@ -89,4 +92,18 @@ of the store.
 
 ### The Server
 
-Hmm...
+After an initial backup, the server will transmit delta information when a client wants to 
+recover or modify a file. A delta chain is constructed from the reference file, detailing the 
+differences from the initial to the second revision, then from the second to the third, and so 
+on. However, this interferes with the policies laid out in the requirements section.
+
+If we only want to keep the last 10 versions of a file, but we've made more than 10 modifications, 
+all we now have is a delta chain, which goes back to the original file. We can't get rid of the 
+original file: we still need it. Neither can we remove an element of the delta chain, or 
+some required reconstruction history is lost.
+
+Several approaches have been considered to reduce this issue, generally however they assume a 
+copy of all delta files to be available. This is clearly not suitable for our system.
+
+Another approach, version jumping [1] allows a constant restoration time with *at most* two 
+accesses to the backup server. This reduces load on both network and server.
